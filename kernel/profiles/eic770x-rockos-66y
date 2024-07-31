@@ -1,0 +1,15 @@
+KERNEL_BRANCH=rockos-eswin-v6.6.36
+KERNEL_GIT=https://github.com/rockos-riscv/rockos-kernel
+KERNEL_DEFCONFIG=win2030_defconfig
+KERNEL_PATCHES=(eic770x/fix-gamma.patch)
+
+function override_config() {
+        . $1
+
+	echo CONFIG_RD_GZIP=y >> .config
+	echo CONFIG_SND_USB_AUDIO=y >> .config
+	echo CONFIG_ESWIN_VIRTUAL_DISPLAY=n >> .config
+	echo CONFIG_DRM_IMG=y >> .config
+
+	$MAKE_EXEC olddefconfig
+}

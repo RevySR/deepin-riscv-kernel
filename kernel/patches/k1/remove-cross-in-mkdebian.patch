@@ -1,0 +1,13 @@
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index cffaf96de..f160aa77b 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -249,7 +249,7 @@ build-arch:
+ 	\$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} \
+ 	KBUILD_BUILD_VERSION=${revision} -f \$(srctree)/Makefile
+ 	# perf
+-	cd \$(srctree)/tools/perf && \$(MAKE) prefix=/usr HAVE_NO_LIBBFD=1 HAVE_CPLUS_DEMANGLE_SUPPORT=1 CROSS_COMPILE=\$(CROSS_COMPILE) NO_LIBPYTHON=1 NO_LIBPERL=1 WERROR=0
++	cd \$(srctree)/tools/perf && \$(MAKE) prefix=/usr HAVE_NO_LIBBFD=1 HAVE_CPLUS_DEMANGLE_SUPPORT=1 NO_LIBPYTHON=1 NO_LIBPERL=1 WERROR=0
+ 	cd \$(srctree)/tools/perf && make man
+ 
+ build: build-arch

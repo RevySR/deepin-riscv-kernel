@@ -1,0 +1,5 @@
+UBOOT_BRANCH=v2024.07
+UBOOT_SBI=1
+UBOOT_SBI_BRANCH=v1.5
+UBOOT_DEFCONFIGS=(sifive_unmatched_defconfig)
+UBOOT_RESULT_FILENAMES=(u-boot-spl.bin u-boot.itb)

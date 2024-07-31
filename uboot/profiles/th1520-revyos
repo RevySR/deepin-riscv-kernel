@@ -1,0 +1,19 @@
+UBOOT_BRANCH=th1520
+UBOOT_GIT=https://github.com/revyos/thead-u-boot/
+UBOOT_DEFCONFIGS=(
+	light_lpi4a_16g_defconfig
+	light_lpi4a_defconfig
+	light_lpi4a_console_defconfig
+	light_lpi4a_console_16g_defconfig
+	light_lpi4a_plastic_defconfig
+	light_lpi4a_plastic_16g_defconfig
+	light_lpi4a_pocket_defconfig
+	light_lpi4a_cluster_defconfig
+	light_lpi4a_cluster_16g_defconfig
+	light_beagle_defconfig
+	light_a_val_defconfig
+	light_milkv_meles_16g_defconfig
+	light_milkv_meles_dualrank_defconfig
+	light_milkv_meles_singlerank_defconfig
+)
+UBOOT_RESULT_FILENAMES=(u-boot-with-spl.bin)

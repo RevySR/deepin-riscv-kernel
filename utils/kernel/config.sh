@@ -1,0 +1,30 @@
+#!/bin/bash
+          
+if [ ! -z $KERNEL_CONFIGS_FROM_DEBIAN ]; then
+	curl https://salsa.debian.org/kernel-team/linux/-/raw/master/debian/config/riscv64/config >> arch/riscv/configs/$KERNEL_DEFCONFIG
+fi
+            
+$MAKE_EXEC $KERNEL_DEFCONFIG
+            
+if [ ${#KERNEL_EXTRA_CONFIGS[@]} -ne 0 ]; then
+	concat_config=$(mktemp)
+	for configfile in "${KERNEL_EXTRA_CONFIGS[@]}"; do
+		if [ -f ../../kernel/defconfigs/$configfile ]; then
+			cat ../../kernel/defconfigs/$configfile >> $concat_config
+		fi
+	done
+
+	scripts/kconfig/merge_config.sh -m .config $concat_config
+fi
+
+# version config
+sed -i '/CONFIG_LOCALVERSION_AUTO/d' .config && echo "CONFIG_LOCALVERSION_AUTO=n" >> .config
+
+# debug config
+
+echo "CONFIG_DEBUG_INFO_DWARF5=y" >> .config
+
+
+# If config restart, use default config
+$MAKE_EXEC olddefconfig
+

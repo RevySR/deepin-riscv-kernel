@@ -1,0 +1,5 @@
+UBOOT_BRANCH=v2024.07
+UBOOT_DEFCONFIGS=(starfive_visionfive2_defconfig)
+UBOOT_SBI=1
+UBOOT_SBI_BRANCH=v1.5
+UBOOT_RESULT_FILENAMES=(u-boot-spl.bin.normal.out u-boot.itb)

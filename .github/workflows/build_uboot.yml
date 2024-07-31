@@ -1,0 +1,35 @@
+name: build uboot
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        required: true
+  workflow_call:
+    inputs:
+      profile:
+        required: true
+        type: string
+
+run-name: build uboot for ${{ inputs.profile }}
+
+jobs:
+  build-uboot:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Update APT sources"
+        run: |
+          sudo apt update
+
+      - uses: actions/checkout@v4
+      - name: "Compile"
+        run: |
+          ./compile.sh uboot ${{ inputs.profile }}
+ 
+      - name: 'Upload U-boot Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: uboot-${{ inputs.profile }}
+          path: "work/results"
+          retention-days: 3
+          if-no-files-found: error

@@ -1,0 +1,85 @@
+name: build kernel
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        required: true
+  workflow_call:
+    inputs:
+      profile:
+        required: true
+        type: string
+
+run-name: build kernel for ${{ inputs.profile }}
+
+jobs:
+  build-kernel:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Update APT sources"
+        run: |
+          sudo apt update
+
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          # this might remove tools that are actually needed,
+          # if set to "true" but frees about 6 GB
+          tool-cache: true
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      - uses: actions/checkout@v4
+      - name: "Prepare Stage"
+        run: |
+          ./compile.sh kernel ${{ inputs.profile }} prepare
+  
+      # https://github.com/actions/cache/blob/main/restore/README.md
+      - name: Restore linux build cache
+        id: restore
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/runnerccache
+          key: ${{ runner.os }}-kernel-${{ inputs.profile }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-kernel-${{ inputs.profile }}-
+
+      - name: "Compile Stage"
+        run: |
+          ./compile.sh kernel ${{ inputs.profile }} compile
+
+      - name: Check ccache
+        run: |
+          ccache -s
+          du -hd0 $CCACHE_DIR
+
+      # https://github.com/actions/cache/blob/main/save/README.md
+      - name: Save linux build cache
+        id: cache
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/runnerccache
+          key: ${{ runner.os }}-kernel-${{ inputs.profile }}-${{ github.sha }}
+
+      - name: 'Upload Kernel Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-${{ inputs.profile }}-deb
+          path: "work/results/deb/*"
+          retention-days: 3
+          if-no-files-found: error
+
+      - name: 'Upload Kernel Artifact (debug)'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-${{ inputs.profile }}-deb-dbg
+          path: "work/results/deb-dbg/*"
+          retention-days: 3
+          if-no-files-found: ignore
