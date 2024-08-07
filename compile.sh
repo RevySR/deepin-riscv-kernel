@@ -9,7 +9,9 @@ if [ "$TARGET_TYPE" != "kernel" ] && [ "$TARGET_TYPE" != "uboot" ]; then
   exit 1
 fi
 
-if [ ! -f "./$TARGET_TYPE/profiles/$TARGET_PROFILE" ]; then
+if [ ! -f "./$TARGET_TYPE/profiles/$TARGET_PROFILE" ] && \
+   [ ! -f "./$TARGET_TYPE/profiles-experimental/$TARGET_PROFILE" ]; \
+  then
   echo "error: $TARGET_TYPE profile $TARGET_PROFILE not found"
   exit 1
 fi
@@ -26,7 +28,11 @@ set -ex
 . ./utils/functions.sh
 
 # load target config
-. ./$TARGET_TYPE/profiles/$TARGET_PROFILE
+if [ -f "./$TARGET_TYPE/profiles/$TARGET_PROFILE" ]; then
+  . ./$TARGET_TYPE/profiles/$TARGET_PROFILE
+else
+  . ./$TARGET_TYPE/profiles-experimental/$TARGET_PROFILE
+fi
 
 if [ "$ACTION_STAGE" != "compile" ]; then
 

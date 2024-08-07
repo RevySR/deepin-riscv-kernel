@@ -4,6 +4,8 @@ export GIT_CLONE_PROTECTION_ACTIVE=false
 
 mkdir -p work
 
+KERNEL_BRANCH=${KERNEL_BRANCH:-master}
+
 git clone --depth=1 -b "$KERNEL_BRANCH" "$KERNEL_GIT" work/kernel
 
 if [ ! -z $KERNEL_SUBDIR ]; then

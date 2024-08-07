@@ -1,0 +1,33 @@
+name: build all experimental
+
+on:
+  push:
+  schedule:
+    - cron: "0 4 */2 * *"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  pull-requests: read
+
+jobs:
+  gen-matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      kernelmatrix: ${{ steps.set-matrix-kernel.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-matrix-kernel
+        run: |
+          export matrix=$(ls kernel/profiles-experimental | jq -R -s -c 'split("\n")[:-1]')
+          echo "::set-output name=matrix::$matrix"
+
+  build-kernel:
+    needs: gen-matrix
+    strategy:
+      fail-fast: false
+      matrix: 
+        profile: ${{fromJson(needs.gen-matrix.outputs.kernelmatrix)}}
+    uses: ./.github/workflows/build_kernel.yml
+    with:
+      profile: ${{ matrix.profile }}

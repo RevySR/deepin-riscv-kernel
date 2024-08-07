@@ -1,0 +1,2 @@
+KERNEL_GIT=https://github.com/bmilde/linux-starfive-vs2-mainline.git
+KERNEL_EXTRA_CONFIGS=(desktop-gpu cgroup bpf common-drivers network)
