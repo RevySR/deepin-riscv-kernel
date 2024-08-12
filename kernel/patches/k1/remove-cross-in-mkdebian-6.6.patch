@@ -1,0 +1,13 @@
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -10,7 +10,7 @@
+     MAKEFLAGS += -j$(NUMJOBS)
+ endif
+ 
+-PERF_BUILD_OPTS := prefix=/usr HAVE_NO_LIBBFD=1 HAVE_CPLUS_DEMANGLE_SUPPORT=1 CROSS_COMPILE=$(CROSS_COMPILE) NO_LIBPYTHON=1 NO_LIBPERL=1 WERROR=0
++PERF_BUILD_OPTS := prefix=/usr HAVE_NO_LIBBFD=1 HAVE_CPLUS_DEMANGLE_SUPPORT=1 NO_LIBPYTHON=1 NO_LIBPERL=1 WERROR=0
+ 
+ # Conditional flags based on whether it's a cross-compile
+ ifeq ("$(DEB_BUILD_GNU_TYPE)", "$(DEB_HOST_GNU_TYPE)")
+
+

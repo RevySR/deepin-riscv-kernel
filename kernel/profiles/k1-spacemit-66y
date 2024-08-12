@@ -1,0 +1,14 @@
+KERNEL_BRANCH=spacemit-k1-6.6
+KERNEL_GIT=https://github.com/YukariChiba/linux.git
+KERNEL_DEFCONFIG=k1_defconfig
+KERNEL_PATCHES=(k1/remove-cross-in-mkdebian-6.6.patch)
+
+function override_config() {
+        sed -i 's/CONFIG_USB_DWC3=m/CONFIG_USB_DWC3=y/' ../../kernel/defconfigs/common-drivers
+        . $1
+}
+
+function override_prep_install_deps() {
+        . $1
+        sudo apt install -y asciidoc
+}
