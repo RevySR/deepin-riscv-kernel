@@ -1,9 +1,8 @@
 name: build all experimental
 
 on:
-  push:
   schedule:
-    - cron: "0 4 */2 * *"
+    - cron: "0 4 */3 * *"
   pull_request:
   workflow_dispatch:
 

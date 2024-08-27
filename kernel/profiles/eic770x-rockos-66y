@@ -1,7 +1,6 @@
-KERNEL_BRANCH=rockos-eswin-v6.6.36
+KERNEL_BRANCH=rockos-eswin-v6.6.47
 KERNEL_GIT=https://github.com/rockos-riscv/rockos-kernel
-KERNEL_DEFCONFIG=win2030_defconfig
-KERNEL_PATCHES=(eic770x/fix-gamma.patch)
+KERNEL_DEFCONFIG=eic7700_defconfig
 
 function override_config() {
         . $1
