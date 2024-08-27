@@ -2,6 +2,7 @@ KERNEL_BRANCH=lpi4a
 KERNEL_GIT=https://github.com/revyos/thead-kernel.git
 KERNEL_DEFCONFIG=revyos_defconfig
 KERNEL_EXTRA_CONFIGS=(cgroup bpf common-drivers network)
+KERNEL_PATCHES=(th1520/display.patch)
 
 function override_config() {
 	sed -i '/UART/d; /80211/d' ../../kernel/defconfigs/common-drivers

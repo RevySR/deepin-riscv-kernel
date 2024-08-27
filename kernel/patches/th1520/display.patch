@@ -1,0 +1,72 @@
+From 52bdcee76a73a3fad3a2cfb7c3e556e656c0b5f5 Mon Sep 17 00:00:00 2001
+From: Icenowy Zheng <uwu@icenowy.me>
+Date: Thu, 28 Mar 2024 00:10:02 +0800
+Subject: [PATCH] drm/verisilicon: fake importing scattered dma_buf
+
+The PowerVR blob seems to have its special understand of EGLImage
+implementation...
+
+Fake importing scattered dma_buf to satisfy this unmodifiable thing.
+
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+ drivers/gpu/drm/verisilicon/Kconfig  |  8 ++++++++
+ drivers/gpu/drm/verisilicon/vs_gem.c | 12 +++++++++++-
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/verisilicon/Kconfig b/drivers/gpu/drm/verisilicon/Kconfig
+index 8a8b454ec..dc827c898 100644
+--- a/drivers/gpu/drm/verisilicon/Kconfig
++++ b/drivers/gpu/drm/verisilicon/Kconfig
+@@ -58,3 +58,11 @@ config VERISILICON_DEC
+ 	  This is a decompression function which reads compressed pixels from
+ 	  external memory (DDR or SRAM) under DPU's control, then it decompress
+ 	  comprssed pixels before returing these pixels to DPU.
++
++config PVR_EGL_IMAGE_WORKAROUND
++	bool "Workaround PVR closed source driver EGLImage under X11"
++	depends on DRM_VERISILICON && !VERISILICON_MMU
++	help
++	  This option enables workaround of TH1520 PVR blob EGLImage
++	  implementation which will unconditionally import the EGLImage buffer
++	  to the display controller.
+diff --git a/drivers/gpu/drm/verisilicon/vs_gem.c b/drivers/gpu/drm/verisilicon/vs_gem.c
+index 026622b0b..b5a0cdb03 100644
+--- a/drivers/gpu/drm/verisilicon/vs_gem.c
++++ b/drivers/gpu/drm/verisilicon/vs_gem.c
+@@ -449,6 +449,7 @@ vs_gem_prime_import_sg_table(struct drm_device *dev,
+     u32 i;
+     dma_addr_t expected;
+     size_t size = attach->dmabuf->size;
++    bool fake = false;
+ #ifdef CONFIG_VERISILICON_MMU
+     u32 iova;
+     struct vs_drm_private *priv = dev->dev_private;
+@@ -470,9 +471,15 @@ vs_gem_prime_import_sg_table(struct drm_device *dev,
+     for_each_sg(sgt->sgl, s, sgt->nents, i) {
+         if (sg_dma_address(s) != expected) {
+ #ifndef CONFIG_VERISILICON_MMU
++#ifdef CONFIG_PVR_EGL_IMAGE_WORKAROUND
++            DRM_DEBUG("sg_table is not contiguous\n");
++            fake = true;
++            break;
++#else
+             DRM_ERROR("sg_table is not contiguous");
+             ret = -EINVAL;
+             goto err;
++#endif
+ #endif
+         }
+ 
+@@ -501,7 +508,10 @@ vs_gem_prime_import_sg_table(struct drm_device *dev,
+         expected = sg_dma_address(s) + sg_dma_len(s);
+     }
+ 
+-    vs_obj->dma_addr = sg_dma_address(sgt->sgl);
++    if (!fake)
++        vs_obj->dma_addr = sg_dma_address(sgt->sgl);
++    else
++        vs_obj->dma_addr = 0;
+ 
+     npages = vs_obj->size >> PAGE_SHIFT;
+     vs_obj->pages = kvmalloc_array(npages, sizeof(struct page *),
