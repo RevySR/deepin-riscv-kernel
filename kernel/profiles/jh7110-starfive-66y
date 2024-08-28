@@ -3,3 +3,8 @@ KERNEL_GIT=https://github.com/starfive-tech/linux.git
 KERNEL_DEFCONFIG=starfive_visionfive2_defconfig
 KERNEL_EXTRA_CONFIGS=(desktop-gpu cgroup bpf common-drivers network)
 KERNEL_PATCHES=(jh7110/fix-img-glitch.patch jh7110/fix-mouse-position.patch jh7110/vpu.patch)
+
+function override_patch() {
+        . $1
+	sed -i 's@usr/lib/linux-image@boot/dtbs/linux-image@' scripts/package/builddeb
+}
