@@ -6,7 +6,14 @@ mkdir -p work
 
 KERNEL_BRANCH=${KERNEL_BRANCH:-master}
 
-git clone --depth=1 -b "$KERNEL_BRANCH" "$KERNEL_GIT" work/kernel
+if [ -z $KERNEL_COMMIT ]; then
+	git clone --depth=1 -b "$KERNEL_BRANCH" "$KERNEL_GIT" work/kernel
+else
+	git clone -b "$KERNEL_BRANCH" "$KERNEL_GIT" work/kernel
+	pushd work/kernel
+	git checkout $KERNEL_COMMIT
+	popd
+fi
 
 if [ ! -z $KERNEL_SUBDIR ]; then
 	mv work/kernel work/kernel-git

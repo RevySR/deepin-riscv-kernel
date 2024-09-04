@@ -34,6 +34,8 @@ jobs:
       matrix: 
         profile: ${{fromJson(needs.gen-matrix.outputs.kernelmatrix)}}
     uses: ./.github/workflows/build_kernel.yml
+    secrets:
+      GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
     with:
       profile: ${{ matrix.profile }}
 
@@ -44,5 +46,7 @@ jobs:
       matrix: 
         profile: ${{fromJson(needs.gen-matrix.outputs.ubootmatrix)}}
     uses: ./.github/workflows/build_uboot.yml
+    secrets:
+      GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
     with:
       profile: ${{ matrix.profile }}
