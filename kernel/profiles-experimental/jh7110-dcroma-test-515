@@ -1,0 +1,9 @@
+KERNEL_BRANCH=JH7110_VisionFive2_devel
+KERNEL_COMMIT=05533e9c31d6f0da20efc2d436a3b0f6d516ed4b
+KERNEL_GIT=https://github.com/starfive-tech/linux.git
+KERNEL_DEFCONFIG=starfive_visionfive2_defconfig
+
+function override_patch() {
+        . $1
+	sed -i 's@usr/lib/$packagename@boot/dtbs/$packagename@' scripts/package/builddeb
+}
