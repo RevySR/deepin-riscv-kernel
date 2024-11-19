@@ -1,6 +1,6 @@
-KERNEL_BRANCH=rockos-eswin-v6.6.47
+KERNEL_BRANCH=rockos-v6.6.y
 KERNEL_GIT=https://github.com/rockos-riscv/rockos-kernel
-KERNEL_DEFCONFIG=eic7700_defconfig
+KERNEL_DEFCONFIG=win2030_defconfig
 
 function override_config() {
         . $1
