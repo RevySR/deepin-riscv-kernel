@@ -1,6 +1,10 @@
 #!/bin/bash
 
-export CROSS_COMPILE="ccache ${GCC_ARCH}-linux-gnu-"
+if [ -z $NOCCACHE ]; then
+  export CROSS_COMPILE="ccache ${GCC_ARCH}-linux-gnu-"
+else
+  export CROSS_COMPILE="${GCC_ARCH}-linux-gnu-"
+fi
 
 case $GCC_ARCH in
 	riscv64)
