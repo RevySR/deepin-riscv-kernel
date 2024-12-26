@@ -14,3 +14,9 @@ function override_config() {
 
 	$MAKE_EXEC olddefconfig
 }
+
+function override_prep_install_deps() {
+        . $1
+
+	sudo apt install -y asciidoc
+}
