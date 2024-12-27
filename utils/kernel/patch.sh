@@ -15,3 +15,13 @@ if [ ${#KERNEL_PATCHES_PROPRIETARY[@]} -ne 0 ]; then
                 fi
         done
 fi
+
+if [ ! -z $KERNEL_BUILD_VERSION ]; then
+	echo "echo $KERNEL_BUILD_VERSION" > init/build-version
+	chmod -v +x init/build-version
+fi
+
+# ignore build dependency
+if [ -f scripts/Makefile.package ]; then
+	sed -i 's/dpkg-buildpackage/dpkg-buildpackage -d/' scripts/Makefile.package
+fi

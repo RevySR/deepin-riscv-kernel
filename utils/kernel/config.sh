@@ -3,7 +3,7 @@
 KERNEL_DEFCONFIG=${KERNEL_DEFCONFIG:-defconfig}
  
 if [ ! -z $KERNEL_CONFIGS_FROM_DEBIAN ]; then
-	curl https://salsa.debian.org/kernel-team/linux/-/raw/master/debian/config/riscv64/config >> arch/riscv/configs/$KERNEL_DEFCONFIG
+	curl https://salsa.debian.org/kernel-team/linux/-/raw/debian/latest/debian/config/riscv64/config >> arch/riscv/configs/$KERNEL_DEFCONFIG
 fi
             
 $MAKE_EXEC $KERNEL_DEFCONFIG

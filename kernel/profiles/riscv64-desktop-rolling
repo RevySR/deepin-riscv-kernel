@@ -1,0 +1,5 @@
+GCC_VER=13
+KERNEL_BRANCH=deepin/v6.12.1
+KERNEL_GIT=https://github.com/deepin-community/kernel-rolling.git
+KERNEL_DEFCONFIG=defconfig
+KERNEL_BUILD_VERSION=23.01.01.00
