@@ -2,6 +2,10 @@
 
 KERNEL_DEFCONFIG=${KERNEL_DEFCONFIG:-defconfig}
  
+if [ ! -z $KERNEL_DEFCONFIG_USE ]; then
+	cp ../../kernel/defconfigs/$KERNEL_DEFCONFIG_USE arch/riscv/configs/
+fi
+
 if [ ! -z $KERNEL_CONFIGS_FROM_DEBIAN ]; then
 	curl https://salsa.debian.org/kernel-team/linux/-/raw/debian/latest/debian/config/riscv64/config >> arch/riscv/configs/$KERNEL_DEFCONFIG
 fi

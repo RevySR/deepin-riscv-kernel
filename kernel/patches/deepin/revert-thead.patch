@@ -1,0 +1,41 @@
+diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+index f69eb918069f..024aadccdb3a 100644
+--- a/arch/riscv/mm/dma-noncoherent.c
++++ b/arch/riscv/mm/dma-noncoherent.c
+@@ -25,7 +25,7 @@ static inline void arch_dma_cache_wback(phys_addr_t paddr, size_t size)
+ 		return;
+ 	}
+ #endif
+-	ALT_CMO_OP_VPA(CLEAN, vaddr, paddr, size, riscv_cbom_block_size);
++	ALT_CMO_OP(CLEAN, vaddr, size, riscv_cbom_block_size);
+ }
+ 
+ static inline void arch_dma_cache_inv(phys_addr_t paddr, size_t size)
+@@ -39,7 +39,7 @@ static inline void arch_dma_cache_inv(phys_addr_t paddr, size_t size)
+ 	}
+ #endif
+ 
+-	ALT_CMO_OP_VPA(INVAL, vaddr, paddr, size, riscv_cbom_block_size);
++	ALT_CMO_OP(INVAL, vaddr, size, riscv_cbom_block_size);
+ }
+ 
+ static inline void arch_dma_cache_wback_inv(phys_addr_t paddr, size_t size)
+@@ -53,7 +53,7 @@ static inline void arch_dma_cache_wback_inv(phys_addr_t paddr, size_t size)
+ 	}
+ #endif
+ 
+-	ALT_CMO_OP_VPA(FLUSH, vaddr, paddr, size, riscv_cbom_block_size);
++	ALT_CMO_OP(FLUSH, vaddr, size, riscv_cbom_block_size);
+ }
+ 
+ static inline bool arch_sync_dma_clean_before_fromdevice(void)
+@@ -126,7 +126,7 @@ void arch_dma_prep_coherent(struct page *page, size_t size)
+ 	}
+ #endif
+ 
+-	ALT_CMO_OP_VPA(FLUSH, flush_addr, paddr, size, riscv_cbom_block_size);
++	ALT_CMO_OP(FLUSH, flush_addr, size, riscv_cbom_block_size);
+ }
+ 
+ void arch_setup_dma_ops(struct device *dev, bool coherent)
+ 

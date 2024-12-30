@@ -1,5 +1,8 @@
-GCC_VER=13
 KERNEL_BRANCH=deepin/v6.12.1
 KERNEL_GIT=https://github.com/deepin-community/kernel-rolling.git
-KERNEL_DEFCONFIG=defconfig
+KERNEL_DEFCONFIG_USE=deepin_riscv_desktop_defconfig
 KERNEL_BUILD_VERSION=23.01.01.00
+KERNEL_PATCHES=(deepin/revert-thead.patch)
+
+# need libssl-dev for riscv64
+export DEB_BUILD_PROFILES="pkg.linux-upstream.nokernelheaders"
