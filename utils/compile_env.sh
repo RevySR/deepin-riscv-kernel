@@ -1,9 +1,11 @@
 #!/bin/bash
 
-if [ -z $NOCCACHE ]; then
-  export CROSS_COMPILE="ccache ${GCC_ARCH}-linux-gnu-"
-else
-  export CROSS_COMPILE="${GCC_ARCH}-linux-gnu-"
+if [ -z "${CROSS_COMPILE+xxx}" ]; then
+  if [ -z $NOCCACHE ]; then
+    export CROSS_COMPILE="ccache ${GCC_ARCH}-linux-gnu-"
+  else
+    export CROSS_COMPILE="${GCC_ARCH}-linux-gnu-"
+  fi
 fi
 
 case $GCC_ARCH in
