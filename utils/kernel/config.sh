@@ -28,7 +28,9 @@ sed -i '/CONFIG_LOCALVERSION_AUTO/d' .config && echo "CONFIG_LOCALVERSION_AUTO=n
 
 # debug config
 
-echo "CONFIG_DEBUG_INFO_DWARF5=y" >> .config
+if [ ! -z $KERNEL_ENABLE_DEBUG ]; then
+	echo "CONFIG_DEBUG_INFO_DWARF5=y" >> .config
+fi
 
 # module config
 

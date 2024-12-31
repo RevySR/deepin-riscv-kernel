@@ -30,6 +30,8 @@
   - default: (unset)
 - `KERNEL_ENABLE_MODULES`: enable modules support (requires native build)
   - default: (unset)
+- `KERNEL_ENABLE_DEBUG`: enable debug (dbg deb may be huge)
+  - default: (unset)
 
 ## Version
 
