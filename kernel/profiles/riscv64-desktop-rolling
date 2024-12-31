@@ -5,4 +5,8 @@ KERNEL_BUILD_VERSION=23.01.01.00
 KERNEL_PATCHES=(deepin/revert-thead.patch)
 
 # need libssl-dev for riscv64
-export DEB_BUILD_PROFILES="pkg.linux-upstream.nokernelheaders"
+if [ "$(arch)" != "riscv64" ]; then
+  export DEB_BUILD_PROFILES="pkg.linux-upstream.nokernelheaders"
+else
+  export KERNEL_ENABLE_MODULES=1
+fi
