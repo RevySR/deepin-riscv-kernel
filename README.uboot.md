@@ -2,10 +2,12 @@
 
 ## Toolchain
 
-- `GCC_VER`
-- `GCC_ARCH`
-- `CROSS_COMPILE`
-- `NOCCACHE`
+- `GCC_VER`: gcc version to use
+  - default: 12
+- `GCC_ARCH`: gcc arch
+  - default: riscv64
+- `CROSS_COMPILE`: replace cross compile env
+  - default: ${GCC_ARCH}-linux-gnu-
 
 ## Git
 
