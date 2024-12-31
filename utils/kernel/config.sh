@@ -9,7 +9,7 @@ fi
 if [ ! -z $KERNEL_CONFIGS_FROM_DEBIAN ]; then
 	curl https://salsa.debian.org/kernel-team/linux/-/raw/debian/latest/debian/config/riscv64/config >> arch/riscv/configs/$KERNEL_DEFCONFIG
 fi
-            
+
 $MAKE_EXEC $KERNEL_DEFCONFIG
             
 if [ ${#KERNEL_EXTRA_CONFIGS[@]} -ne 0 ]; then
@@ -30,6 +30,11 @@ sed -i '/CONFIG_LOCALVERSION_AUTO/d' .config && echo "CONFIG_LOCALVERSION_AUTO=n
 
 echo "CONFIG_DEBUG_INFO_DWARF5=y" >> .config
 
+# module config
+
+if [ ! -z $KERNEL_ENABLE_MODULES ]; then
+	echo "CONFIG_MODULES=y" >> .config
+fi
 
 # If config restart, use default config
 $MAKE_EXEC olddefconfig
