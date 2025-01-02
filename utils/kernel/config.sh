@@ -4,6 +4,7 @@ KERNEL_DEFCONFIG=${KERNEL_DEFCONFIG:-defconfig}
  
 if [ ! -z $KERNEL_DEFCONFIG_USE ]; then
 	cp ../../kernel/defconfigs/$KERNEL_DEFCONFIG_USE arch/riscv/configs/
+	KERNEL_DEFCONFIG=$KERNEL_DEFCONFIG_USE
 fi
 
 if [ ! -z $KERNEL_CONFIGS_FROM_DEBIAN ]; then
