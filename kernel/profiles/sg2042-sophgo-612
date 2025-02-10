@@ -1,3 +1,10 @@
 KERNEL_BRANCH=sg2042-dev-6.12
 KERNEL_GIT=https://github.com/sophgo/linux-riscv.git
 KERNEL_EXTRA_CONFIGS=(desktop-gpu cgroup bpf common-drivers network)
+
+# need libssl-dev for riscv64
+if [ "$(arch)" != "riscv64" ]; then
+  export DEB_BUILD_PROFILES="pkg.linux-upstream.nokernelheaders"
+else
+  export KERNEL_ENABLE_MODULES=1
+fi
