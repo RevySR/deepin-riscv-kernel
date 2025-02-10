@@ -1,4 +1,4 @@
-KERNEL_BRANCH=sg2042-dev
+KERNEL_BRANCH=sg2042-dev-6.12
 KERNEL_GIT=https://github.com/sophgo/linux-riscv.git
 KERNEL_DEFCONFIG=sophgo_mango_ubuntu_defconfig
 KERNEL_EXTRA_CONFIGS=(desktop-gpu cgroup bpf common-drivers network)
