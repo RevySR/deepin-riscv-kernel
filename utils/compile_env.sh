@@ -12,6 +12,9 @@ case $GCC_ARCH in
 	riscv64)
 		MAKE_ARCH="riscv"
 		;;
+	aarch64)
+		MAKE_ARCH="arm64"
+		;;
 	*)
 		MAKE_ARCH="${GCC_ARCH}"
 		;;
