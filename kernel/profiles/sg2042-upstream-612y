@@ -1,5 +1,6 @@
-KERNEL_BRANCH=sg2042-dev-6.12
-KERNEL_GIT=https://github.com/sophgo/linux-riscv.git
+KERNEL_BRANCH=sg2042-upstream-v6.12.y-wip
+KERNEL_GIT=https://github.com/revyos/sg2042-vendor-kernel.git
+KERNEL_DEFCONFIG=debian_defconfig
 KERNEL_EXTRA_CONFIGS=(desktop-gpu cgroup bpf common-drivers network)
 
 # need libssl-dev for riscv64
